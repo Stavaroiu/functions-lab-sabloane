@@ -1,0 +1,139 @@
+package visitor;
+
+import Arbori.Nod;
+import Functii.Arccos;
+import Functii.Arcctg;
+import Functii.Arcsin;
+import Functii.Arctg;
+import Functii.Constanta;
+import Functii.Cos;
+import Functii.Ctg;
+import Functii.Exp;
+import Functii.Log;
+import Functii.Necunoscuta;
+import Functii.Putere;
+import Functii.Radical;
+import Functii.Sin;
+import Functii.Tg;
+import Operatori.Cat;
+import Operatori.Minus;
+import Operatori.Plus;
+import Operatori.Produs;
+
+public class DerivareValoricaVisitor extends Visitor{
+
+	@Override
+	public void visit(Plus p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Minus m) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Cat c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Produs p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Necunoscuta n) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Constanta c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Sin s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Cos c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Arccos ac) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Arcctg act) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Arcsin as) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Arctg at) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Ctg ct) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Exp e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Log l) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Putere p) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Radical r) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Tg t) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void visit(Nod n) {
+		// TODO Auto-generated method stub
+		
+	}
+
+}

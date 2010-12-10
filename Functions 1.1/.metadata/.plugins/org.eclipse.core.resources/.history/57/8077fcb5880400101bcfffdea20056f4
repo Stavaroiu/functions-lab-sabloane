@@ -1,0 +1,243 @@
+package visitor;
+
+import Arbori.Nod;
+import FunctiiElementare.Constanta;
+import FunctiiElementare.Necunoscuta;
+import FunctiiTrigo.Cos;
+import FunctiiTrigo.Sin;
+import Operatori.Cat;
+import Operatori.Minus;
+import Operatori.Plus;
+import Operatori.Produs;
+
+public class DerivareVisitor extends Visitor{
+String derivare;
+	
+	public DerivareVisitor()
+	{
+		derivare="";
+	}
+		
+	public String getDerivare() {
+		return derivare;
+	}
+
+	public void setDerivare(String derivare) {
+		this.derivare = derivare;
+	}
+
+	@Override
+	public void visit(Plus p) {
+		if ( p.getfStang() != null && p . getfDrept() != null )
+		{
+		visit(p.getfStang()) ;
+		String s1=this.derivare;
+		visit ( p.getfDrept() ) ;
+		String s2=this.derivare ;
+		derivare=p.concatTermeni( s1 , s2 ) ;
+		}
+		
+	}
+
+	@Override
+	public void visit(Minus m) {
+		if ( m.getfStang() != null && m.getfDrept() != null )
+		{
+		visit(m.getfStang()) ;
+		String s1=this.derivare;
+		visit ( m.getfDrept() ) ;
+		String s2=this.derivare ;
+		derivare=m.concatTermeni( s1 , s2 ) ;
+		}
+		
+	}
+
+	@Override
+	public void visit(Cat c) {
+		if ( c.getfStang() != null && c.getfDrept() != null )
+		{
+		ToStringVisitor v=new ToStringVisitor();
+		v.visit(c.getfStang());
+		String f=v.getS();
+		v.setS("");
+		v.visit(c.getfDrept());
+		String g=v.getS();
+		
+		visit(c.getfStang()) ;
+		String s1=this.derivare;
+		visit ( c.getfDrept() ) ;
+		String s2=this.derivare ;
+
+		String aux1=Produs.concatTermens("("+s2+")","("+f+")");
+		String aux2=Produs.concatTermens("("+g+")", "("+s1+")");
+		String aux3=Plus.concatTermens("("+aux1+")", "("+aux2+")");
+		String aux4=Produs.concatTermens("("+g+")","("+ g+")");
+		derivare=Cat.concatTermens("("+aux3+")", "("+aux4+")");
+		}
+		
+		
+	}
+
+	@Override
+	public void visit(Produs p) {
+		if ( p.getfStang() != null && p.getfDrept() != null )
+		{
+		ToStringVisitor v=new ToStringVisitor();
+		v.visit(p.getfStang());
+		String f=v.getS();
+		v.setS("");
+		v.visit(p.getfDrept());
+		String g=v.getS();
+		
+		visit(p.getfStang()) ;
+		String s1=this.derivare;
+		visit ( p.getfDrept() ) ;
+		String s2=this.derivare ;
+
+		String aux1=Produs.concatTermens("("+s2+")", "("+f+")");
+		String aux2=Produs.concatTermens("("+g+")", "("+s1+")");
+		derivare=Plus.concatTermens(aux1, aux2);
+		}
+		
+	}
+
+	@Override
+	public void visit(Necunoscuta n) {
+		derivare="1";
+		
+	}
+
+	@Override
+	public void visit(Constanta c) {
+		derivare="0";
+		
+	}
+
+	@Override
+	public void visit(Sin s) {
+		if ( s.getfStang() != null )
+		{
+			visit(s.getfStang());
+			String s1=derivare;
+			ToStringVisitor v=new ToStringVisitor();
+			v.visit(s.getfStang());
+			String s2=v.getS();
+			derivare=Produs.concatTermens(s1,
+					Cos.concatTermens(s2));
+
+		}
+		
+	}
+
+	@Override
+	public void visit(Cos c) {
+		if ( c.getfStang() != null )
+		{
+			visit(c.getfStang());
+			String s1=derivare;
+			ToStringVisitor v=new ToStringVisitor();
+			v.visit(c.getfStang());
+			String s2=v.getS();
+			derivare=Produs.concatTermens(s1,
+					"(-"+Sin.concatTermens(s2)+")");
+
+		}
+		
+	}
+
+	@Override
+	public void visit(Tg t) {
+		if ( t.getfStang() != null )
+		{
+			visit(t.getfStang());
+			String s1=derivare;
+			ToStringVisitor v=new ToStringVisitor();
+			v.visit(t.getfStang());
+			String s2=v.getS();
+			derivare=Produs.concatTermens(s1,Cat.concatTermens("1", Produs.concatTermens(Cos.concatTermens(s2),Cos.concatTermens(s2))));
+
+		}
+		
+	}
+
+	@Override
+	public void visit(Ctg c) {
+		if ( c.getfStang() != null )
+		{
+			visit(c.getfStang());
+			String s1=derivare;
+			ToStringVisitor v=new ToStringVisitor();
+			v.visit(c.getfStang());
+			String s2=v.getS();
+			derivare=Produs.concatTermens(s1,Cat.concatTermens("1", Produs.concatTermens(Sin.concatTermens(s2),Sin.concatTermens(s2))));
+
+		}
+		
+	}
+
+	@Override
+	public void visit(Log l) {
+		if ( l.getfStang() != null )
+		{
+			visit(l.getfStang());
+			String s1=derivare;
+			ToStringVisitor v=new ToStringVisitor();
+			v.visit(l.getfStang());
+			String s2=v.getS();
+			derivare=Cat.concatTermens(s1,s2);
+
+		}
+
+		
+	}
+
+	@Override
+	public void visit(Exp e) {
+		if ( e.getfStang() != null )
+		{
+			visit(e.getfStang());
+			String s1=derivare;
+			ToStringVisitor v=new ToStringVisitor();
+			v.visit(e.getfStang());
+			String s2=v.getS();
+			derivare=Produs.concatTermens(s1,"e^"+s2);
+
+		}
+  
+	}
+
+	@Override
+	public void visit(Radical r) {
+		if ( r.getfStang() != null )
+		{
+			visit(r.getfStang());
+			String s1=derivare;
+			ToStringVisitor v=new ToStringVisitor();
+			v.visit(r.getfStang());
+			String s2=v.getS();
+			derivare=Produs.concatTermens(s1,Cat.concatTermens("1", Produs.concatTermens("2",Radical.concatTermens(s2))));
+
+		}
+		
+	}
+
+	@Override
+	public void visit(Nod n) {
+		if ( n instanceof Necunoscuta ) this.visit((Necunoscuta)n);
+		if ( n instanceof Constanta ) this.visit((Constanta)n);
+		if ( n instanceof Plus ) this.visit((Plus)n);
+		if ( n instanceof Minus ) this.visit((Minus)n);
+		if ( n instanceof Cat ) this.visit((Cat)n);
+		if ( n instanceof Produs ) this.visit((Produs)n);
+		if ( n instanceof Sin ) this.visit((Sin)n);
+		if ( n instanceof Cos ) this.visit((Cos)n);
+		if ( n instanceof Tg ) this.visit((Tg)n);
+		if ( n instanceof Ctg ) this.visit((Ctg)n);
+		if ( n instanceof Radical ) this.visit((Radical)n);
+		if ( n instanceof Log ) this.visit((Log)n);
+		if ( n instanceof Exp ) this.visit((Exp)n);	
+		
+	}
+
+}
+

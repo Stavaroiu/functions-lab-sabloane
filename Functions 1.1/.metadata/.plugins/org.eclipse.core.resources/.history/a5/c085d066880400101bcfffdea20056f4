@@ -1,0 +1,127 @@
+package visitor;
+
+import Arbori.Nod;
+import FunctiiElementare.Constanta;
+import FunctiiElementare.Necunoscuta;
+import FunctiiTrigo.Cos;
+import FunctiiTrigo.Sin;
+import Operatori.Cat;
+import Operatori.Minus;
+import Operatori.Plus;
+import Operatori.Produs;
+
+public class DerivareVisitor extends Visitor{
+	protected String rezultat;
+	protected ToStringVisitor tsv=new ToStringVisitor();
+	
+	public DerivareVisitor(){
+		rezultat="";
+	}
+	
+	public DerivareVisitor(String s){
+		this.rezultat=s;
+	}
+
+	public String getRezultat() {
+		return rezultat;
+	}
+
+	public void setRezultat(String rezultat) {
+		this.rezultat = rezultat;
+	}
+	
+	public void visit(Plus p){
+		p.acceptVisitor(tsv);
+	}
+	
+	public void visit(Minus m){
+		m.acceptVisitor(tsv);
+	}
+	
+	public void visit(Produs p){
+		if(p.getFStang()!=null && p.getFDrept()!=null)
+		{
+			visit(p.getFStang());
+			String f1D=this.rezultat;
+			visit(p.getFDrept());
+			String f2D=this.rezultat;
+			p.getFStang().acceptVisitor(tsv);
+			String f1=tsv.getS();
+			p.getFDrept().acceptVisitor(tsv);
+			String f2=tsv.getS();
+			this.rezultat=Plus.concatTermens(Produs.concatTermens(f1D, f2), Produs.concatTermens(f2D,f1));
+		}
+	}
+	
+	public void visit(Cat c){
+		if(c.getFStang()!=null && c.getFDrept()!=null)
+		{
+			visit(c.getFStang());
+			String f1D=this.rezultat;
+			visit(c.getFDrept());
+			String f2D=this.rezultat;
+			c.getFStang().acceptVisitor(tsv);
+			String f1=tsv.getS();
+			c.getFDrept().acceptVisitor(tsv);
+			String f2=tsv.getS();
+			this.rezultat=Minus.concatTermens(Produs.concatTermens(f1D, f2), Produs.concatTermens(f2D,f1));
+		}
+	}
+	
+	public void visit(Necunoscuta n){
+		this.rezultat="1";
+	}
+	
+	public void visit(Constanta ct){
+		this.rezultat="0";
+	}
+	
+	public void visit(Sin s){
+		if(s.getFStang()!=null)
+		{
+			visit(s.getFStang());
+			String fsd=this.rezultat;
+			s.getFStang().acceptVisitor(tsv);
+			String fs=tsv.getS();
+			this.rezultat=Produs.concatTermens(Cos.concatTermens(fs), fsd);
+		}
+	}
+	
+	public void visit(Cos s){
+		if(s.getFStang()!=null)
+		{
+			visit(s.getFStang());
+			String fsd=this.rezultat;
+			s.getFStang().acceptVisitor(tsv);
+			String fs=tsv.getS();
+			this.rezultat=Produs.concatTermens(Produs.concatTermens("-1", Sin.concatTermens(fs)), fsd);
+		}
+	}
+	
+	public void visit(Nod n){
+		if(n.getClass().equals("Plus"))
+			visit((Plus)n);
+		else
+			if(n.getClass().equals("Minus"))
+				visit((Minus)n);
+			else
+				if(n.getClass().equals("Produs"))
+					visit((Produs)n);
+				else 
+					if(n.getClass().equals("Cat"))
+						visit((Cat)n);
+					else
+						if(n.getClass().equals("Constanta"))
+							visit((Constanta)n);
+						else
+							if(n.getClass().equals("Necunoscuta"))
+								visit((Necunoscuta)n);
+							else
+								if(n.getClass().equals("Cos"))
+									visit((Cos)n);
+								else
+									if(n.getClass().equals("Sin"))
+										visit((Sin)n);
+	}
+
+}
