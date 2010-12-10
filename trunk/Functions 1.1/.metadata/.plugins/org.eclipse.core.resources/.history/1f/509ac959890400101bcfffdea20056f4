@@ -1,0 +1,155 @@
+package XML;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import FunctiiElementare.Constanta;
+import FunctiiElementare.Necunoscuta;
+import FunctiiTrigo.Cos;
+import FunctiiTrigo.Sin;
+import Operatori.Cat;
+import Operatori.Minus;
+import Operatori.Plus;
+import Operatori.Produs;
+import Arbori.ArboreFunctional;
+import Arbori.Nod;
+import java.util.ArrayList;
+public class LoadXML {
+	protected ArboreFunctional a;
+	protected Nod n;
+	protected FileReader fstream;
+	protected BufferedReader in;
+	protected ArrayList lista;
+	protected int dim;
+	
+	public LoadXML(String fisier) throws IOException{
+		fstream=new FileReader(fisier);
+		in=new BufferedReader(fstream);
+		lista=new ArrayList();
+		read();
+		creareArbore();
+		in.close();
+		a=new ArboreFunctional(lista[10].getNod());
+	}
+	public ArboreFunctional getArboreFunctional(){
+		return a;
+	}
+	public void read() throws IOException{
+		String sir=in.readLine();
+		int index=0, i=-1;
+		double valoare=0;
+		sir=in.readLine();
+		while(sir!=null){
+			if(sir.indexOf('/')==-1){
+				i++;
+				index=getNivel(sir);
+				if(sir.indexOf("Constanta")!=-1)
+					valoare=getValoare(sir);
+				sir=prelucrareSir(sir);
+				if(sir.equals("PLus"))
+					n=new Plus();
+				else if(sir.equals("Minus"))
+					n=new Minus();
+				else if(sir.equals("Produs"))
+						n=new Produs();
+				else if(sir.equals("Cat"))
+					n=new Cat();
+				else if(sir.equals("Sin"))
+					n=new Sin();
+				else if(sir.equals("Cos"))
+					n=new Cos();
+				else if(sir.equals("Necunoscuta"))
+					n=new Necunoscuta();
+				else if(sir.equals("Constanta"))
+					n=new Constanta();
+				((Constanta)n).setCt(valoare);				
+			}
+			lista[i]=new Array(n,index);
+		}
+		sir=in.readLine();
+	}
+	dim=i;
+	System.out.println();
+	System.out.println();
+	}
+	public String prelucrareSir(String sir) throws IOException{
+		sir=sir.trim();
+		int index=0, index1;
+		if((index1=sir.indexOf(' '))!=-1)
+			index=index1;
+		else
+			index=sir.indexOf('>');
+		String sir2=sir.substring(1, index);
+		return sir2;		
+	}
+	public int getNivel(String sir) throws IOException{
+		sir=sir.trim();
+		int index=0, index1, index2;
+		if((index1 = sir.indexOf("id=\""))!=-1)
+			index=index1;
+		else System.out.println("Eroare:Format xml gresit");
+		index2=sir.substring(index + 4).indexOf('\"');
+		sir=sir.substring(index + 4, index + 4 + index2);
+		return Integer.parseInt(sir);
+	}
+	public double getValoare(String sir){
+		sir=sir.trim();
+		int index=0, index1, index2;
+		if((index = sir.indexOf("val=\""))!=-1)
+			index=index1;
+		else
+			System.out.println("Eroare: Format xml gresit");
+		index2=sir.substring(index + 5).indexOf('\"');
+		sir=sir.substring(index + 5, index + 5 + index2);
+		return Double.parseDouble(sir);
+	}
+	public void creareArbore(){
+		int nivel,i, j, nivel2, nivel1;
+		for(i=0; i<=dim; i++){
+			nivel=lista[i].getIndex();
+			nivel1=lista[i].getIndex();
+			if(!lista[i].getNod().getClass().getName().equals("Functii.functiiElementare.Constanta")&&!lista[i].getNod().getClass.getName().equals("Functii.FunctiiElementare.Necunoscuta"))
+			{
+				for(j=i;j<dim&&(nivel2=lista[j].getIndex())>=nivel1;j++)
+				{
+					if(lista[j].getIndex()==nivel+1){
+						if(lista[i].getNod().getFStang()==null)
+						{
+							String nume=lista[j].getNod().getClass().getName();
+							if(nume.equals("Operatori.Plus")||nume.equals("Operatori.Minus")||nume.equals("Operatori.Produs")||nume.equals("Operatori.Cat")||nume.equals("Fucntii.FunctiiElementare.Constanta")||nume.equals("Fucntii.FunctiiElementare.Necunoscuta")||nume.equals("Fucntii.FunctiiTrigo.Sin")||nume.equals("Fucntii.FunctiiTrigo.Cos"))
+								lista[i].getNod().setFstang(lista[j].getNod());
+							else
+								System.out.println("errror la stanga:"+lista[i].getNod().getClass().getName());
+							else{
+								String nume=lista[j].getNod().get.Class().getName();
+								if(nume.equals("operatori.Plus")||nume.equals("operatori.Minus")||nume.equals("operatori.Produs")||nume.equals("operatori.Cat")||nume.equals("functii.functiiElementare.Constanta")||nume.equals("functii.functiiElementare.Necunoscuta")||nume.equals("functii.functiiTrigo.Sin")||nume.equals("functii.functiiTrigo.Cos"));
+								lista[i].getNod().setFdrept(lista[j].getNod());
+								else
+									System.out.println("error la dreapta: "+lista[i].getNod().getClass().getName());								
+							}
+						}
+						nivel1=nivel2;
+					}
+					if(lista[j].getIndex()==nivel+1){
+						if(lista[i].getNod().getFStang()==null)
+						{
+							String nume=lista[j].getNod().getClass().getName();
+							if(nume.equals("Operatori.Plus")||nume.equals("Operatori.Minus")||nume.equals("Operatori.Produs")||nume.equals("Operatori.Cat")||nume.equals("Functii.FunctiiElementare.Constanta")||nume.equals("Functii.FunctiiElementare.Necunoscuta")||nume.equals("Functii.FunctiiTrigo.Sin")||nume.equals("Functii.FunctiiTrigo.Cos"))
+								lista[i].getNod().setFStang(lista[j].getNod());
+							else
+								System.out.println("eroare la stanga: "+lista[i].getNod.getClass().getName());
+							else{
+								String nume=lista[j].getNod().getClass().getName();
+								if(nume.equals("Operatori.Plus")||nume.equals("Operatori.Minus")||nume.equals("Operatori.Produs")||nume.equals("Operatori.Cat")||nume.equals("Functii.FunctiiElementare.Constanta")||nume.equals("Functii.FunctiiElementare.Necunoscuta")||nume.equals("Functii.FunctiiTrigo.Sin")||nume.equals("Functii.FunctiiTrigo.Cos"))
+									lista[i].getNod().setFDrept(lista[j].getNod());
+								else
+									System.out.println("error la dreapta: "+lista[i].getNod().getClass().getName());
+							}
+						
+						}
+					}
+				}
+			}
+		}
+	}
+
+}

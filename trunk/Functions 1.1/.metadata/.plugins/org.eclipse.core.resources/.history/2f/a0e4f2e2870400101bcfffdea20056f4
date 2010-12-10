@@ -1,0 +1,50 @@
+package visitor;
+
+import Arbori.Nod;
+import FunctiiElementare.Constanta;
+import FunctiiElementare.Necunoscuta;
+import FunctiiTrigo.Cos;
+import FunctiiTrigo.Sin;
+import Operatori.Cat;
+import Operatori.Minus;
+import Operatori.Plus;
+import Operatori.Produs;
+
+public class CalculVisitor extends Visitor{
+	public void visit(Plus p){
+		
+	}
+	
+	public void visit(Minus m){
+		
+	}
+	
+	public void visit(Cat c){
+		
+	}
+	
+	public void visit(Produs p){
+		
+	}
+	
+	public void visit(Necunoscuta n){
+		
+	}
+	
+	public void visit(Constanta c){
+		
+	}
+	
+	public void visit(Cos c){
+		
+	}
+	
+	public void visit(Sin s){
+		
+	}
+	
+	public void visit(Nod n){
+		
+	}
+
+}
