@@ -60,7 +60,7 @@ public class LoadXML {
 				else if(sir.equals("Necunoscuta"))
 					n=new Necunoscuta();
 				else if(sir.equals("Constanta")){
-					n=new Constanta();
+					n=new Constanta(valoare);
 				((Constanta)n).setCt(valoare);				
 			}
 			lista[i]=new ArrayList(n,index);
@@ -102,6 +102,8 @@ public class LoadXML {
 		sir=sir.substring(index + 5, index + 5 + index2);
 		return Double.parseDouble(sir);
 	}
+
+	
 	public void creareArbore(){
 		int nivel,i, j, nivel2, nivel1;
 		for(i=0; i<=dim; i++){
